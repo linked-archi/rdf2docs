@@ -78,6 +78,7 @@ All options: [CLI usage](docs/00-cli.md).
 One Markdown document per model, indexed from `ai-context.md`, so each one fits in a context window.
 A resource's model is read from its `arch:inModel`, else from the namespace its IRI is in. A single-model
 graph is written as one file with no index. Each document contains:
+
 - Instructions for AI assistants on how to use the information
 - The **Model**
 - A **Views** section listing each view with its contained elements and external links
@@ -114,8 +115,9 @@ rdf2docs generate -i model.trig -o output --base https://example.org/la/ --prese
 rdf2docs generate -i model.ttl -o output --base https://example.org/ --html-pages=false
 ```
 
-`playground/run-sample.sh` documents the [sample models](https://github.com/linked-archi/sample-models) — ArchiMate
-4 and 3.2, BPMN and UML — into `playground/out/`, downloading them on first use.
+`playground/run-sample.sh` documents the [sample models](https://github.com/linked-archi/sample-models) into
+`playground/out/`, downloading them on first use: ArchiMate 4 and 3.2, BPMN and UML models, and two case studies,
+ArchiSurance and VIO Group, that join several languages in one graph.
 
 ## Build from source
 
@@ -126,6 +128,28 @@ your JDK.
 ./gradlew shadowJar          # build/libs/rdf2docs-<version>-all.jar
 ./gradlew test
 ```
+
+## Releasing a version
+
+A release is a tag. Pushing `v<major>.<minor>.<patch>` to GitHub builds the jar at that version and attaches it to
+a GitHub release, pushes the image `ghcr.io/linked-archi/rdf2docs` tagged `<version>`, `<major>.<minor>` and
+`latest`, and republishes the demo site.
+
+1. In `CHANGELOG.md`, turn `## Unreleased` into `## <version> — <date>`.
+2. Set `version=<version>` in `gradle.properties`.
+3. A new minor or major version: change the image tag the CI templates and examples name, `:0.1` and `0.1.x`, to
+   the new one (`grep -rn '0\.1' README.md ci docs/03-devops.md` finds them). A patch version needs no change:
+   `:0.1` is the latest 0.1.x.
+4. Commit, push to `main`, and wait for CI to pass.
+5. Tag and push the tag:
+
+   ```bash
+   git tag v0.2.0 && git push origin v0.2.0
+   ```
+
+A sample model needs no release: add it to [sample-models](https://github.com/linked-archi/sample-models) and a
+line for it to `playground/samples.txt`, push both, and run the demo by hand (`gh workflow run demo.yml`, or
+*Actions → Demo site → Run workflow*). [Build and DevOps](docs/03-devops.md) has the details.
 
 ## Documentation
 

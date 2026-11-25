@@ -30,3 +30,6 @@ playground/out/
 
 # Sample models, downloaded by playground/run-sample.sh
 playground/models/
+
+# The demo site, assembled by playground/demo-site.sh
+playground/site/

@@ -8,8 +8,8 @@
 #   All other element types start checked (visible). Relationships are the graph's edges, not nodes: every
 #   relationship type starts shown, whatever this list says.
 #
-# The types are ArchiMate 3.2's, as the converters write them for ArchiSurance
-# (playground/run-archimate-model.sh).
+# The types are ArchiMate 3's, as the converters write them; playground/run-sample.sh passes this file for the
+# samples in ArchiMate 3.
 
 excludedNodeTypes:
   - https://meta.linked.archi/archimate3/onto#Grouping

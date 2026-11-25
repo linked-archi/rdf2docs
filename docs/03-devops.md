@@ -33,6 +33,8 @@ into `playground/out/<name>/`:
 
 ```bash
 playground/run-sample.sh                     # every sample
+playground/run-sample.sh archisurance        # ArchiMate 3.1, BPMN, PlantUML, LeanIX and Backstage in one graph
+playground/run-sample.sh vio                 # ArchiMate 3.2, C4, BPMN, LeanIX, Backstage and decisions in one graph
 playground/run-sample.sh acme-shop           # ArchiMate 4, drawn in la-gram
 playground/run-sample.sh payment-platform    # ArchiMate 3.2, from the ArchiMate Exchange Format
 playground/run-sample.sh order-domain        # BPMN, two processes collected as one model's views
@@ -40,9 +42,15 @@ playground/run-sample.sh uml-shop            # UML, three PlantUML diagrams shar
 SAMPLE_MODELS=../sample-models playground/run-sample.sh   # from a local checkout
 ```
 
-It downloads a model into `playground/models/` the first time (`SAMPLE_MODELS_REF` picks a branch or tag other
-than `main`). When the default `java` is older than 25, it runs the Java 25 that macOS's `java_home` finds, and
-stops with an error when there is none.
+`playground/samples.txt` lists the samples: each one's name, file, base IRI, and what the demo's index says of it.
+A sample added there is documented by the script and listed by the demo. The script downloads a model into
+`playground/models/` the first time (`SAMPLE_MODELS_REF` picks a branch or tag other than `main`). When the
+default `java` is older than 25, it runs the Java 25 that macOS's `java_home` finds, and stops with an error when
+there is none.
+
+`playground/demo-site.sh` then assembles the demo site from what it generated, into `playground/site/`: a folder
+per sample and an index of them, with each one's languages, sources, counts and licence. The demo workflow runs
+the two.
 
 The generator accepts Turtle and TriG. A TriG file's named graphs are loaded into the same in-memory repository and
 queried together.
@@ -69,20 +77,39 @@ hand: `./gradlew clean shadowJar && docker build --tag rdf2docs .`.
 Three GitHub Actions workflows, in `.github/workflows/`:
 
 | Workflow | Runs on | Does |
-|---|---|---|
+| --- | --- | --- |
 | `ci.yml` | every push to `main`, every pull request | the tests, the jar, and the image built from it and run |
 | `release.yml` | a tag `v<major>.<minor>.<patch>` | the jar at the tag's version, attached to a GitHub release with generated notes; the image pushed to GHCR; then the demo site |
 | `demo.yml` | each release, and by hand | every sample model's documentation, one folder each, on GitHub Pages |
 
-To release: update `CHANGELOG.md` and `gradle.properties`' `version`, then tag and push the tag:
+To release:
 
-```bash
-git tag v0.2.0 && git push origin v0.2.0
-```
+1. In `CHANGELOG.md`, turn `## Unreleased` into `## <version> — <date>`.
+2. Set `version=<version>` in `gradle.properties`. The release builds the jar at the tag's version whatever this
+   says, but a build from source between releases reads it.
+3. A new minor or major version: change the image tag the CI templates and examples name, `:0.1` and `0.1.x`, to
+   the new one (`grep -rn '0\.1' README.md ci docs/03-devops.md` finds them). A patch version needs no change:
+   `:0.1` is the latest 0.1.x, so the pipelines that use the templates get it at their next run.
+4. Commit, push to `main`, and wait for CI to pass.
+5. Tag and push the tag:
 
-Once per repository: *Settings → Pages → Source: GitHub Actions*, for the demo site; and, after the first release,
-the `rdf2docs` package's visibility set to *Public* under the organisation's *Packages*, so that anyone can pull
-the image.
+   ```bash
+   git tag v0.2.0 && git push origin v0.2.0
+   ```
+
+A sample model needs no release. The demo builds rdf2docs from the revision it runs on and downloads the models
+from sample-models' `main`: add the model there, a line for it to `playground/samples.txt` here, push both, and
+run the demo by hand. Run by hand, the demo is built from `main`, so it also shows what `main` has that no release
+has yet.
+
+Once per repository:
+
+- *Settings → Pages → Source: GitHub Actions*, for the demo site. The demo is published by a release, or by
+  `gh workflow run demo.yml` (*Actions → Demo site → Run workflow*).
+- A tag rule `v*` under *Settings → Environments → github-pages → Deployment branches and tags*. Pages deploys
+  only from `main` until then, and a release deploys the demo from its tag.
+- After the first release, the `rdf2docs` package's visibility set to *Public* under the organisation's
+  *Packages*, so that anyone can pull the image.
 
 ## Documentation in other repositories' pipelines
 

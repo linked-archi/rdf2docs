@@ -18,9 +18,14 @@
 - **`--version`** prints the version the build wrote into the jar's manifest, `gradle.properties`' `version` or
   the release tag's.
 - **The sample models** are [linked-archi/sample-models](https://github.com/linked-archi/sample-models)' — an
-  ArchiMate 4 shop drawn in la-gram, an ArchiMate 3.2 payment platform, a BPMN order domain and a UML shop.
-  `playground/run-sample.sh` documents them, downloading each on first use (or reading a local checkout,
-  `SAMPLE_MODELS`); it replaces the three scripts that read models from other repositories' working trees.
+  ArchiMate 4 shop drawn in la-gram, an ArchiMate 3.2 payment platform, a BPMN order domain, a UML shop, and two
+  case studies that join several languages in one graph: ArchiSurance and VIO Group. `playground/samples.txt`
+  lists them; `playground/run-sample.sh` documents them, downloading each on first use (or reading a local
+  checkout, `SAMPLE_MODELS`); it replaces the three scripts that read models from other repositories' working
+  trees.
+- **The demo site's index** (`playground/demo-site.sh`) shows each sample as a card: its languages, what it was
+  made from, its counts of elements, relationships and views, its base IRI and licence, and links to its
+  documentation, its AI context and the model.
 
 ### Changed: a type's icon is what meta.linked.archi publishes
 

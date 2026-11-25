@@ -4,10 +4,7 @@
 #
 # Usage: playground/run-sample.sh [name ...]        no name: every sample
 #
-#   acme-shop          ArchiMate 4, drawn in la-gram
-#   payment-platform   ArchiMate 3.2, converted from the ArchiMate Exchange Format
-#   order-domain       BPMN, two processes
-#   uml-shop           UML, three PlantUML diagrams
+# The samples, their names and base IRIs are listed in playground/samples.txt.
 #
 # The models are downloaded into playground/models/ on first use. SAMPLE_MODELS=<dir> reads a local checkout of
 # sample-models instead; SAMPLE_MODELS_REF=<branch or tag> downloads another revision (default: main).
@@ -15,11 +12,8 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-#        name             file in sample-models                               base IRI
-SAMPLES="acme-shop        archimate4/acme-shop/acme-shop.ttl                  https://example.org/acme/shop/
-payment-platform          archimate3/payment-platform/payment-platform.trig   https://example.org/la/
-order-domain              bpmn/order-domain/order-domain.trig                 https://example.org/la/
-uml-shop                  uml/shop/shop.trig                                  https://example.org/la/"
+# samples.txt without its comments, a line per sample, its fields separated by | without the spaces around them
+samples() { grep -vE '^[[:space:]]*(#|$)' samples.txt | sed -E 's/[[:space:]]*\|[[:space:]]*/|/g; s/^[[:space:]]+//; s/[[:space:]]+$//'; }
 
 JAR=$(ls -t ../build/libs/rdf2docs-*-all.jar 2>/dev/null | head -1 || true)
 [ -n "$JAR" ] || { echo "No jar in build/libs: run ./gradlew shadowJar first" >&2; exit 1; }
@@ -46,15 +40,15 @@ model() {  # model <file in sample-models>: the local path of the model, downloa
 
 wanted=("$@")
 found=0
-while read -r name file base; do
+while IFS='|' read -r name file base _title languages _rest; do
   if [ ${#wanted[@]} -gt 0 ] && [[ ! " ${wanted[*]} " == *" $name "* ]]; then continue; fi
   found=$((found + 1))
   input=$(model "$file")
   extra=()
-  # The graph starts without ArchiMate's Grouping and Location; the others have neither.
-  case "$file" in archimate*) extra=(--graph-config config/graph-config.yml) ;; esac
+  # The graph of an ArchiMate 3 model starts without Grouping and Location, its types grouped by layer.
+  case "$languages" in *"ArchiMate 3"*) extra=(--graph-config config/graph-config.yml) ;; esac
   echo "▸ $name ($file)"
   rm -rf "out/$name"
   "$JAVA" -jar "$JAR" generate --input "$input" --output-dir "out/$name" --base "$base" ${extra[@]+"${extra[@]}"}
-done <<< "$SAMPLES"
+done < <(samples)
 [ "$found" -gt 0 ] || { echo "No sample named: $*" >&2; exit 1; }
