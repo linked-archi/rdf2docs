@@ -1,0 +1,77 @@
+# Graph view configuration for rdf2docs
+#
+# filterGroups: named groups of type IRIs shown as sections in the filter dropdown.
+#   Each group has a label and a list of IRIs. Types not assigned to any group are
+#   collected automatically into an "Other" group at the end.
+#
+# excludedNodeTypes: element types whose nodes start UNCHECKED (hidden) in the type filter.
+#   All other element types start checked (visible). Relationships are the graph's edges, not nodes: every
+#   relationship type starts shown, whatever this list says.
+#
+# The types are ArchiMate 3.2's, as the converters write them for ArchiSurance
+# (playground/run-archimate-model.sh).
+
+excludedNodeTypes:
+  - https://meta.linked.archi/archimate3/onto#Grouping
+  - https://meta.linked.archi/archimate3/onto#Location
+
+filterGroups:
+  - label: Strategy
+    iris:
+      - https://meta.linked.archi/archimate3/onto#Capability
+      - https://meta.linked.archi/archimate3/onto#Resource
+      - https://meta.linked.archi/archimate3/onto#ValueStream
+      - https://meta.linked.archi/archimate3/onto#CourseOfAction
+
+  - label: Business
+    iris:
+      - https://meta.linked.archi/archimate3/onto#BusinessActor
+      - https://meta.linked.archi/archimate3/onto#BusinessRole
+      - https://meta.linked.archi/archimate3/onto#BusinessCollaboration
+      - https://meta.linked.archi/archimate3/onto#BusinessInterface
+      - https://meta.linked.archi/archimate3/onto#BusinessProcess
+      - https://meta.linked.archi/archimate3/onto#BusinessFunction
+      - https://meta.linked.archi/archimate3/onto#BusinessInteraction
+      - https://meta.linked.archi/archimate3/onto#BusinessService
+      - https://meta.linked.archi/archimate3/onto#BusinessEvent
+      - https://meta.linked.archi/archimate3/onto#BusinessObject
+      - https://meta.linked.archi/archimate3/onto#Contract
+      - https://meta.linked.archi/archimate3/onto#Representation
+      - https://meta.linked.archi/archimate3/onto#Product
+
+  - label: Application
+    iris:
+      - https://meta.linked.archi/archimate3/onto#DataObject
+      - https://meta.linked.archi/archimate3/onto#ApplicationComponent
+      - https://meta.linked.archi/archimate3/onto#ApplicationInterface
+      - https://meta.linked.archi/archimate3/onto#ApplicationFunction
+      - https://meta.linked.archi/archimate3/onto#ApplicationProcess
+      - https://meta.linked.archi/archimate3/onto#ApplicationService
+      - https://meta.linked.archi/archimate3/onto#ApplicationEvent
+
+  - label: Technology
+    iris:
+      - https://meta.linked.archi/archimate3/onto#Node
+      - https://meta.linked.archi/archimate3/onto#Device
+      - https://meta.linked.archi/archimate3/onto#SystemSoftware
+      - https://meta.linked.archi/archimate3/onto#CommunicationNetwork
+      - https://meta.linked.archi/archimate3/onto#TechnologyService
+      - https://meta.linked.archi/archimate3/onto#Artifact
+
+  - label: Relationships
+    iris:
+      - https://meta.linked.archi/archimate3/onto#Association
+      - https://meta.linked.archi/archimate3/onto#DirectedAssociation
+      - https://meta.linked.archi/archimate3/onto#Composition
+      - https://meta.linked.archi/archimate3/onto#Aggregation
+      - https://meta.linked.archi/archimate3/onto#Assignment
+      - https://meta.linked.archi/archimate3/onto#Realization
+      - https://meta.linked.archi/archimate3/onto#Serving
+      - https://meta.linked.archi/archimate3/onto#Access
+      - https://meta.linked.archi/archimate3/onto#ReadAccess
+      - https://meta.linked.archi/archimate3/onto#WriteAccess
+      - https://meta.linked.archi/archimate3/onto#ReadWriteAccess
+      - https://meta.linked.archi/archimate3/onto#Influence
+      - https://meta.linked.archi/archimate3/onto#Triggering
+      - https://meta.linked.archi/archimate3/onto#Flow
+      - https://meta.linked.archi/archimate3/onto#Specialization

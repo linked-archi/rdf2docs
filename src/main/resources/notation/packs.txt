@@ -1,0 +1,10 @@
+core core/core-onto.ttl core/core-vis-onto.ttl core/core-notation.ttl
+archimate3 archimate3/archimate3.2-metamodel.ttl archimate3/archimate3.2-onto.ttl archimate3/archimate3.2-notation.ttl archimate3/archimate3.2-presentation-contexts.ttl archimate3/archimate3.2-tax.ttl
+archimate4 archimate4/archimate4-metamodel.ttl archimate4/archimate4-onto.ttl archimate4/archimate4-notation.ttl archimate4/archimate4-presentation-contexts.ttl archimate4/archimate4-tax.ttl
+bpmn bpmn/bpmn-metamodel.ttl bpmn/linkedarchi-bpmn-onto.ttl bpmn/linkedarchi-bpmn-infra-onto.ttl bpmn/bpmn-notation.ttl bpmn/bpmn-tax.ttl
+bpmn-lite bpmn-lite/bpmn-lite-metamodel.ttl bpmn-lite/linkedarchi-bpmn-lite-onto.ttl bpmn-lite/bpmn-lite-notation.ttl bpmn-lite/bpmn-lite-tax.ttl
+c4 c4/c4-metamodel.ttl c4/c4-onto.ttl c4/structurizr-onto.ttl c4/c4-notation.ttl c4/c4-presentation-contexts.ttl c4/c4-tax.ttl
+uml uml/uml-metamodel.ttl uml/uml-onto.ttl uml/uml-notation.ttl uml/uml-tax.ttl
+leanix leanix/leanIX-metamodel.ttl leanix/leanIX-v4-onto.ttl leanix/leanIX-notation.ttl leanix/leanIX-tax.ttl
+backstage backstage/backstage-metamodel.ttl backstage/backstage-onto.ttl backstage/backstage-notation.ttl backstage/backstage-presentation-contexts.ttl backstage/backstage-tax.ttl
+basic basic/basic-metamodel.ttl basic/basic-onto.ttl basic/basic-notation.ttl basic/basic-presentation-contexts.ttl basic/basic-tax.ttl basic/notation-bubble/basic-notation-bubble.ttl

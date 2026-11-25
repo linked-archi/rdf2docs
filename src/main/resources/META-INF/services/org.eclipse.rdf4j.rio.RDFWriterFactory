@@ -1,0 +1,5 @@
+# Rio writer factories. See the note in org.eclipse.rdf4j.rio.RDFParserFactory — same cause, and
+# without this `Rio.write(..., RDFFormat.TURTLE)` fails for every resource page's facts.ttl.
+org.eclipse.rdf4j.rio.turtle.TurtleWriterFactory
+org.eclipse.rdf4j.rio.trig.TriGWriterFactory
+org.eclipse.rdf4j.rio.ntriples.NTriplesWriterFactory

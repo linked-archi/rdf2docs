@@ -1,0 +1,43 @@
+# Every push to main and every pull request: the tests, the jar, and the container image built from it.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Java 25: RDF4J 6 is compiled for it. Gradle finds it; it never downloads one (gradle.properties).
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      # Validates the Gradle wrapper's checksum, and caches Gradle's downloads.
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Test and build the jar
+        run: ./gradlew test shadowJar
+
+      - name: The jar runs
+        run: java -jar build/libs/rdf2docs-*-all.jar --version
+
+      - name: The image builds and runs
+        run: |
+          docker build --tag rdf2docs:ci .
+          docker run --rm rdf2docs:ci rdf2docs --version
+
+      - name: Test reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: build/reports/tests/

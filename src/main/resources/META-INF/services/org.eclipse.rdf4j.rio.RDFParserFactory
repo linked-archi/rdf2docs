@@ -1,0 +1,14 @@
+# Rio parser factories, declared explicitly rather than left to the ones RDF4J's own JARs carry.
+#
+# RDF4J declares its Rio factories through JPMS `module-info`, and shading discards those
+# declarations — so in a fat JAR `ServiceLoader` finds only whichever legacy service file survived
+# the merge, and `Rio.getParserFormatForFileName(...)` fails with
+# "UnsupportedRDFormatException: Did not recognise RDF format object Turtle" for everything else.
+# `mergeServiceFiles()` cannot repair that on its own; the converters carry the same file for the
+# same reason.
+#
+# Only formats whose module is a declared dependency belong here: a class named here and absent from
+# the JAR makes ServiceLoader throw and takes the whole registry down with it.
+org.eclipse.rdf4j.rio.turtle.TurtleParserFactory
+org.eclipse.rdf4j.rio.trig.TriGParserFactory
+org.eclipse.rdf4j.rio.ntriples.NTriplesParserFactory

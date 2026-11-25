@@ -1,0 +1,32 @@
+# Gradle
+.gradle/
+build/
+out/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Kotlin
+.kotlin/
+*.class
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+# The Eclipse JDT language server — the Java extension in VS Code-based editors — imports the
+# Gradle module and mirrors its source sets into bin/main and bin/test. JDT does not compile
+# Kotlin, so it treats every .kt as a resource and copies it verbatim: the result is a
+# byte-identical duplicate of src/, which is build output that happens to look like source.
+# Gradle writes to build/ and never reads this, so deleting bin/ is always safe.
+bin/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Playground output
+playground/out/
+
+# Sample models, downloaded by playground/run-sample.sh
+playground/models/

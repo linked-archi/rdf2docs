@@ -1,0 +1,17 @@
+rdf2docs
+https://github.com/linked-archi/rdf2docs
+Copyright 2026 Linked.Archi
+
+Licensed under the Apache License, Version 2.0 (LICENSE).
+
+The jar, and every site it generates, also carry:
+
+- D3 7.9.0, ISC licence, Copyright 2010-2023 Mike Bostock — https://d3js.org
+- Cytoscape.js 3.34.3, MIT licence, Copyright (c) 2016-2025, The Cytoscape Consortium — https://js.cytoscape.org
+- Oxigraph 0.5.11, MIT or Apache-2.0 — https://github.com/oxigraph/oxigraph
+  (src/main/resources/site/vendor/LICENSES.md)
+
+The jar carries the Linked.Archi notation, ontologies, presentation contexts and taxonomies it draws with
+(src/main/resources/notation/), as published at https://meta.linked.archi/ under the Creative Commons
+Attribution 4.0 International licence (https://creativecommons.org/licenses/by/4.0/). The notation's icons are not
+in the jar: the generated pages show them at https://meta.linked.archi/.

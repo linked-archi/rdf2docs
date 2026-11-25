@@ -1,0 +1,6 @@
+# The image needs the jar, the launcher and the licence files; nothing else is sent to the build.
+*
+!build/libs/rdf2docs-*-all.jar
+!docker/rdf2docs
+!LICENSE
+!NOTICE

@@ -1,0 +1,60 @@
+# Architecture documentation from a Linked.Archi model, published on GitHub Pages at every push to main.
+#
+# 1. Copy this file into .github/workflows/ of the repository that holds the model.
+# 2. Set MODEL and BASE below.
+# 3. Settings → Pages → Source: GitHub Actions.
+#
+# https://github.com/linked-archi/rdf2docs/tree/main/ci
+name: Architecture documentation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  MODEL: model.ttl                      # the model: Turtle (.ttl) or TriG (.trig), from the repository's root
+  BASE: https://example.org/my-model/   # the base IRI its resources are named under
+  OPTIONS: ''                           # more options, such as --presentation-context ArchitectContext
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # 0.1: the latest 0.1.x release — its fixes, never a change of behaviour. ghcr.io/linked-archi/rdf2docs:0.1.0
+    # pins one release; :latest follows every release.
+    container: ghcr.io/linked-archi/rdf2docs:0.1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate the documentation
+        run: |
+          # OPTIONS is split into its words on purpose: one option each.
+          # shellcheck disable=SC2086
+          rdf2docs generate --input "$MODEL" --output-dir rdf2docs-out --base "$BASE" $OPTIONS
+
+      # The AI context beside the pages, at <site>/ai-context.md; delete this step to leave it out.
+      - name: Publish the AI context with the site
+        run: cp -r rdf2docs-out/ai-context* rdf2docs-out/html/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: rdf2docs-out/html
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

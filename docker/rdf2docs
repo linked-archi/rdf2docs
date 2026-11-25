@@ -1,0 +1,3 @@
+#!/bin/sh
+# rdf2docs in the container image. RDF2DOCS_JAVA_OPTS passes options to the JVM, such as -Xmx4g for a large model.
+exec java ${RDF2DOCS_JAVA_OPTS:-} -jar /opt/rdf2docs/rdf2docs.jar "$@"

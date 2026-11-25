@@ -1,0 +1,32 @@
+# Architecture documentation from a Linked.Archi model, published on GitLab Pages at every push to the default
+# branch. gitlab.com and self-managed GitLab.
+#
+# 1. Copy this file into the repository that holds the model, beside .gitlab-ci.yml.
+# 2. Include it from .gitlab-ci.yml:
+#        include:
+#          - local: rdf2docs.gitlab-ci.yml
+#    (or, with no .gitlab-ci.yml yet, name this file .gitlab-ci.yml).
+# 3. Set RDF2DOCS_MODEL and RDF2DOCS_BASE below.
+#
+# https://github.com/linked-archi/rdf2docs/tree/main/ci
+variables:
+  RDF2DOCS_MODEL: model.ttl                      # the model: Turtle (.ttl) or TriG (.trig), from the repository's root
+  RDF2DOCS_BASE: https://example.org/my-model/   # the base IRI its resources are named under
+  RDF2DOCS_OPTIONS: ''                           # more options, such as --presentation-context ArchitectContext
+
+pages:
+  # 0.1: the latest 0.1.x release — its fixes, never a change of behaviour. :0.1.0 pins one release; :latest
+  # follows every release.
+  image:
+    name: ghcr.io/linked-archi/rdf2docs:0.1
+    entrypoint: ['']
+  script:
+    - rdf2docs generate --input "$RDF2DOCS_MODEL" --output-dir rdf2docs-out --base "$RDF2DOCS_BASE" $RDF2DOCS_OPTIONS
+    # The AI context beside the pages, at <site>/ai-context.md; delete this line to leave it out.
+    - cp -r rdf2docs-out/ai-context* rdf2docs-out/html/
+    - mv rdf2docs-out/html public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
